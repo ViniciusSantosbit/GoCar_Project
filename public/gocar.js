@@ -1,6 +1,5 @@
-// gocar.js - Localizado em: public/gocar.js
+// public/gocar.js
 
-// 1. Função que busca os carros do Servidor e monta a vitrine
 async function carregarCarros() {
     const grid = document.getElementById('vitrine-grid');
     
@@ -13,15 +12,14 @@ async function carregarCarros() {
     }
 
     try {
-        // AJUSTE: Rota alterada para /api/carros para bater com o server.js
-        const response = await fetch('/api/carros'); 
+        const response = await fetch('/carros'); 
         const carros = await response.json();
         
         setTimeout(() => {
             if (!grid) return;
             grid.innerHTML = ''; 
 
-            if (!carros || carros.length === 0) {
+            if (carros.length === 0) {
                 grid.innerHTML = '<p style="text-align: center; width: 100%; color: var(--text-secondary);">Nenhum veículo disponível no momento.</p>';
                 return;
             }
@@ -49,11 +47,10 @@ async function carregarCarros() {
         }, 600);
     } catch (error) {
         console.error("Erro ao carregar carros:", error);
-        if (grid) grid.innerHTML = '<p style="color: #ff4545; text-align: center; width: 100%;">Erro ao carregar catálogo.</p>';
+        if (grid) grid.innerHTML = '<p style="color: #ff4545; text-align: center; width: 100%;">Erro ao conectar com o servidor.</p>';
     }
 }
 
-// 2. Função de Notificação Premium (Toast)
 function mostrarToast(mensagem) {
     let toast = document.getElementById('toast-notif');
     if (!toast) {
@@ -62,21 +59,15 @@ function mostrarToast(mensagem) {
         toast.className = 'toast';
         document.body.appendChild(toast);
     }
-    
     toast.innerHTML = `<span>⚡</span> ${mensagem}`;
     toast.classList.add('show');
-    
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 4000);
+    setTimeout(() => toast.classList.remove('show'), 4000);
 }
 
-// 3. Lógica para o Modal de Feedbacks
 function configurarModalFeedback() {
     const btnSaibaMais = document.getElementById('btn-saiba-mais');
     const modal = document.getElementById('modal-feedback');
     const btnFechar = document.querySelector('.close-modal');
-
     if (btnSaibaMais && modal) {
         btnSaibaMais.onclick = (e) => {
             e.preventDefault();
@@ -84,20 +75,13 @@ function configurarModalFeedback() {
             mostrarToast("Abrindo avaliações da comunidade...");
         };
     }
-
-    if (btnFechar) {
-        btnFechar.onclick = () => {
-            modal.style.display = 'none';
-        };
-    }
+    if (btnFechar) btnFechar.onclick = () => modal.style.display = 'none';
 }
 
-// 4. Lógica para o Modal de Suporte
 function configurarModalSuporte() {
     const btnSuporte = document.getElementById('btn-suporte');
     const modalSuporte = document.getElementById('modal-suporte');
     const btnFecharSuporte = document.getElementById('fechar-suporte');
-
     if (btnSuporte && modalSuporte) {
         btnSuporte.onclick = (e) => {
             e.preventDefault();
@@ -105,54 +89,31 @@ function configurarModalSuporte() {
             mostrarToast("Acessando Central de Apoio...");
         };
     }
-
-    if (btnFecharSuporte) {
-        btnFecharSuporte.onclick = () => {
-            modalSuporte.style.display = 'none';
-        };
-    }
+    if (btnFecharSuporte) btnFecharSuporte.onclick = () => modalSuporte.style.display = 'none';
 }
 
-// 5. Função de Envio do Formulário de Suporte
 function enviarSuporte(event) {
     event.preventDefault();
     const tipo = document.getElementById('tipo-contato').value;
     mostrarToast("Enviando sua solicitação...");
-
     setTimeout(() => {
-        const modal = document.getElementById('modal-suporte');
-        if(modal) modal.style.display = 'none';
+        document.getElementById('modal-suporte').style.display = 'none';
         document.getElementById('form-suporte').reset();
-        
-        if (tipo === 'avaliacao') {
-            mostrarToast("Obrigado pela sua avaliação! ⭐");
-        } else {
-            mostrarToast("Recebemos sua mensagem. Retornaremos em breve!");
-        }
+        mostrarToast(tipo === 'avaliacao' ? "Obrigado pela sua avaliação! ⭐" : "Recebemos sua mensagem!");
     }, 1500);
 }
 
-// 6. Função de Cadastro (Ajustada para o Banco de Dados)
 async function cadastrar() {
     const nome = document.getElementById('nome').value;
     const email = document.getElementById('email').value;
     const senha = document.getElementById('senha').value;
-
-    if (!nome || !email || !senha) {
-        mostrarToast("Preencha todos os campos!");
-        return;
-    }
-
-    mostrarToast("Processando cadastro...");
-
+    if (!nome || !email || !senha) return mostrarToast("Preencha todos os campos!");
     try {
-        // AJUSTE: Rota alterada para /api/cadastro
-        const response = await fetch('/api/cadastro', {
+        const response = await fetch('/cadastro', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nome, email, senha })
         });
-        
         if (response.ok) {
             localStorage.setItem('usuarioNome', nome);
             mostrarToast(`Bem-vindo, ${nome}!`);
@@ -161,33 +122,22 @@ async function cadastrar() {
             const erro = await response.text();
             mostrarToast("Erro: " + erro);
         }
-    } catch (error) {
-        console.error("Erro no fetch:", error);
-        mostrarToast("Erro ao conectar ao servidor.");
-    }
+    } catch (error) { mostrarToast("Erro ao realizar cadastro."); }
 }
 
-// 7. Lógica do Tema (Dark/Light)
 function configurarTema() {
     const btnTema = document.getElementById('theme-toggle');
     if (!btnTema) return;
-
     btnTema.onclick = () => {
         document.body.classList.toggle('light-mode');
-        const modoAtual = document.body.classList.contains('light-mode') ? 'light' : 'dark';
-        localStorage.setItem('temaPreferido', modoAtual);
+        localStorage.setItem('temaPreferido', document.body.classList.contains('light-mode') ? 'light' : 'dark');
     };
-
-    if (localStorage.getItem('temaPreferido') === 'light') {
-        document.body.classList.add('light-mode');
-    }
+    if (localStorage.getItem('temaPreferido') === 'light') document.body.classList.add('light-mode');
 }
 
-// 8. Verificar Login
 function verificarLogin() {
     const nomeSalvo = localStorage.getItem('usuarioNome');
     const menu = document.querySelector('.menu');
-
     if (nomeSalvo && menu) {
         menu.innerHTML = `
             <li><a href="#vitrine">Veículos</a></li>
@@ -195,18 +145,14 @@ function verificarLogin() {
             <li><a href="#" onclick="logout()" style="color: #ff4545; margin-left: 15px;">Sair</a></li>
             <li><button id="theme-toggle" style="background:none; border:none; cursor:pointer; font-size: 20px;">🌓</button></li>
         `;
-        
         const secaoCadastro = document.getElementById('cadastro');
         if (secaoCadastro) secaoCadastro.style.display = 'none';
-        
         configurarTema();
     }
 }
 
-// 9. Simular Aluguel
 function simularAluguel(modeloCarro) {
-    const usuario = localStorage.getItem('usuarioNome');
-    if (!usuario) {
+    if (!localStorage.getItem('usuarioNome')) {
         mostrarToast("Crie uma conta para reservar!");
         window.location.href = "#cadastro";
         return;
@@ -214,25 +160,20 @@ function simularAluguel(modeloCarro) {
     mostrarToast(`Reserva do ${modeloCarro} em processamento!`);
 }
 
-// 10. Logout
 function logout() {
     localStorage.removeItem('usuarioNome');
     location.reload();
 }
 
-// 11. Fechamento Global de Modais
 window.onclick = (event) => {
-    const modalFeedback = document.getElementById('modal-feedback');
-    const modalSuporte = document.getElementById('modal-suporte');
-    if (event.target == modalFeedback) modalFeedback.style.display = 'none';
-    if (event.target == modalSuporte) modalSuporte.style.display = 'none';
+    if (event.target.classList.contains('modal')) event.target.style.display = 'none';
 };
 
-// 12. Inicialização Global
-window.onload = () => {
+// INICIALIZAÇÃO CORRIGIDA
+document.addEventListener('DOMContentLoaded', () => {
     configurarTema(); 
     carregarCarros();
     verificarLogin();
     configurarModalFeedback();
     configurarModalSuporte();
-};
+});
