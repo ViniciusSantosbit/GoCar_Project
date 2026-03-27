@@ -4,7 +4,6 @@
 async function carregarCarros() {
     const grid = document.getElementById('vitrine-grid');
     
-    // FEEDBACK VISUAL: Skeleton Loading
     if (grid) {
         grid.innerHTML = `
             <div class="skeleton-card"></div>
@@ -14,14 +13,15 @@ async function carregarCarros() {
     }
 
     try {
-        const response = await fetch('/carros'); 
+        // AJUSTE: Rota alterada para /api/carros para bater com o server.js
+        const response = await fetch('/api/carros'); 
         const carros = await response.json();
         
         setTimeout(() => {
             if (!grid) return;
             grid.innerHTML = ''; 
 
-            if (carros.length === 0) {
+            if (!carros || carros.length === 0) {
                 grid.innerHTML = '<p style="text-align: center; width: 100%; color: var(--text-secondary);">Nenhum veículo disponível no momento.</p>';
                 return;
             }
@@ -48,7 +48,8 @@ async function carregarCarros() {
             });
         }, 600);
     } catch (error) {
-        if (grid) grid.innerHTML = '<p style="color: #ff4545; text-align: center; width: 100%;">Erro ao conectar com o servidor.</p>';
+        console.error("Erro ao carregar carros:", error);
+        if (grid) grid.innerHTML = '<p style="color: #ff4545; text-align: center; width: 100%;">Erro ao carregar catálogo.</p>';
     }
 }
 
@@ -70,7 +71,7 @@ function mostrarToast(mensagem) {
     }, 4000);
 }
 
-// 3. Lógica para o Modal de Feedbacks (Comentários)
+// 3. Lógica para o Modal de Feedbacks
 function configurarModalFeedback() {
     const btnSaibaMais = document.getElementById('btn-saiba-mais');
     const modal = document.getElementById('modal-feedback');
@@ -91,7 +92,7 @@ function configurarModalFeedback() {
     }
 }
 
-// 4. Lógica para o Modal de Suporte e Contato
+// 4. Lógica para o Modal de Suporte
 function configurarModalSuporte() {
     const btnSuporte = document.getElementById('btn-suporte');
     const modalSuporte = document.getElementById('modal-suporte');
@@ -115,14 +116,12 @@ function configurarModalSuporte() {
 // 5. Função de Envio do Formulário de Suporte
 function enviarSuporte(event) {
     event.preventDefault();
-    
     const tipo = document.getElementById('tipo-contato').value;
-    const msg = document.getElementById('mensagem-suporte').value;
-
     mostrarToast("Enviando sua solicitação...");
 
     setTimeout(() => {
-        document.getElementById('modal-suporte').style.display = 'none';
+        const modal = document.getElementById('modal-suporte');
+        if(modal) modal.style.display = 'none';
         document.getElementById('form-suporte').reset();
         
         if (tipo === 'avaliacao') {
@@ -133,7 +132,7 @@ function enviarSuporte(event) {
     }, 1500);
 }
 
-// 6. Função de Cadastro
+// 6. Função de Cadastro (Ajustada para o Banco de Dados)
 async function cadastrar() {
     const nome = document.getElementById('nome').value;
     const email = document.getElementById('email').value;
@@ -144,8 +143,11 @@ async function cadastrar() {
         return;
     }
 
+    mostrarToast("Processando cadastro...");
+
     try {
-        const response = await fetch('/cadastro', {
+        // AJUSTE: Rota alterada para /api/cadastro
+        const response = await fetch('/api/cadastro', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nome, email, senha })
@@ -160,11 +162,12 @@ async function cadastrar() {
             mostrarToast("Erro: " + erro);
         }
     } catch (error) {
-        mostrarToast("Erro ao realizar cadastro.");
+        console.error("Erro no fetch:", error);
+        mostrarToast("Erro ao conectar ao servidor.");
     }
 }
 
-// 7. Lógica do White Mode
+// 7. Lógica do Tema (Dark/Light)
 function configurarTema() {
     const btnTema = document.getElementById('theme-toggle');
     if (!btnTema) return;
@@ -217,11 +220,10 @@ function logout() {
     location.reload();
 }
 
-// 11. Fechamento Global de Modais (Clicar fora)
+// 11. Fechamento Global de Modais
 window.onclick = (event) => {
     const modalFeedback = document.getElementById('modal-feedback');
     const modalSuporte = document.getElementById('modal-suporte');
-    
     if (event.target == modalFeedback) modalFeedback.style.display = 'none';
     if (event.target == modalSuporte) modalSuporte.style.display = 'none';
 };
