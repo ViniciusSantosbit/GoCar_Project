@@ -4,14 +4,16 @@ const path = require('path');
 const app = express();
 
 app.use(express.json());
-app.use(express.static('public')); // Isso faz o Node servir seu HTML/CSS/JS
+app.use(express.static('public')); // Serve arquivos da pasta public (HTML, CSS, JS)
 
 // CONEXÃO COM O BANCO
+// ATENÇÃO: 'localhost' só funciona no seu PC. 
+// Para o site online, você precisará de um banco na nuvem (ex: PlanetScale ou Clever Cloud).
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '75231', // <--- COLOQUE SUA SENHA AQUI
-    database: 'gocar_test'      // <--- NOME DO SEU BANCO DE DADOS
+    password: '75231', 
+    database: 'gocar_test'
 });
 
 // ROTA PARA BUSCAR CARROS
@@ -31,4 +33,11 @@ app.post('/cadastro', (req, res) => {
     });
 });
 
-app.listen(3000, () => console.log("Servidor rodando em http://localhost:3000"));
+// CONFIGURAÇÃO DE PORTA PARA VERCEL OU LOCAL
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+});
+
+// Necessário para a Vercel entender o roteamento do Express
+module.exports = app;
