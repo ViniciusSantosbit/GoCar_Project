@@ -12,9 +12,8 @@ const supabaseUrl = 'https://ftjejowrvdfmhmbipdbz.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ0amVqb3dydmRmbWhtYmlwZGJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1Nzc5OTQsImV4cCI6MjA5MDE1Mzk5NH0.yAQqQ2-D6LWtqtQktRdJ9KuaIc9ksqDBlJHwPCNgtdc';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// ROTA PARA BUSCAR CARROS (Ajustada para bater com seu SQL: 'carros')
+// ROTA PARA BUSCAR CARROS
 app.get('/api/carros', async (req, res) => {
-    // IMPORTANTE: Use 'carros' (plural) como está no seu banco
     const { data, error } = await supabase.from('carros').select('*');
     if (error) {
         console.error("Erro no Supabase:", error);
@@ -23,6 +22,7 @@ app.get('/api/carros', async (req, res) => {
     res.json(data);
 });
 
+// ROTA PARA CADASTRO
 app.post('/api/cadastro', async (req, res) => {
     const { nome, email, senha } = req.body;
     const { data, error } = await supabase.from('usuarios').insert([{ nome, email, senha }]);
@@ -34,7 +34,10 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor rodando!`));
+// AJUSTE DE PORTA PARA RENDER / RAILWAY / VERCEL
+const PORT = process.env.PORT || 10000; 
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Servidor GoCar rodando na porta ${PORT}`);
+});
 
 module.exports = app;
