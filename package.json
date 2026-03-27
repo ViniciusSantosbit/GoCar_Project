@@ -2,17 +2,17 @@
   "name": "gocar",
   "version": "1.0.0",
   "description": "",
-  "main": "gocar.js",
+  "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@supabase/supabase-js": "^2.100.1",
-    "express": "^5.2.1",
-    "mysql2": "^3.20.0"
+    "@supabase/supabase-js": "^2.48.1",
+    "express": "^4.18.2"
   },
   "type": "commonjs"
 }
