@@ -1,0 +1,385 @@
+/* IMPORTAÇÃO DA FONTE PROFISSIONAL (Plus Jakarta Sans) */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+/* 1. CONFIGURAÇÕES GERAIS E RESET */
+html {
+    scroll-behavior: smooth;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* Fonte profissional aplicada aqui */
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+}
+
+/* 2. VARIÁVEIS DE TEMA (O SEGREDO DO WHITE MODE) */
+:root {
+    --bg-color: #000000;
+    --card-bg: #1c1c1e;
+    --navbar-bg: rgba(17, 17, 17, 0.9);
+    --text-primary: #ffffff;
+    --text-secondary: #86868b;
+    --neon-green: #39ff14;
+    --form-bg: #111111;
+    --input-bg: #222;
+    --input-border: #333;
+}
+
+/* Quando o JS ativar essa classe, as cores mudam */
+body.light-mode {
+    --bg-color: #cceed8;
+    --card-bg: #07220b;
+    --navbar-bg: rgba(26, 73, 24, 0.9);
+    --text-primary: #050505;
+    --text-secondary: #f3f3f3;
+    --neon-green: #28a745;
+    --form-bg: #ffffff;
+    --input-bg: #fff;
+    --input-border: #d2d2d7;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    transition: background 0.4s, color 0.4s;
+}
+
+/* 3. NAVBAR */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 60px;
+    background: var(--navbar-bg);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.logo-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.logo-container img { width: 120px; height: auto; }
+.logo-text { 
+    font-size: 32px; 
+    font-weight: 800; /* Mais peso para a logo */
+    color: var(--text-primary); 
+    letter-spacing: -1.5px; 
+}
+.logo-text span { color: var(--neon-green); }
+
+.menu { list-style: none; display: flex; gap: 30px; align-items: center; }
+.menu a { text-decoration: none; color: var(--text-secondary); font-weight: 600; transition: 0.3s; }
+.menu a:hover { color: var(--text-primary); }
+
+#theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 8px;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+#theme-toggle:hover { background: rgba(128,128,128,0.2); }
+
+.btn-nav {
+    padding: 10px 22px;
+    background: var(--neon-green);
+    color: #000 !important;
+    font-weight: 700;
+    border-radius: 25px;
+    text-decoration: none;
+}
+
+/* 4. HERO SECTION */
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.6), var(--bg-color)), url('carrodestaque.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.hero h1 { 
+    font-size: clamp(40px, 8vw, 64px); 
+    font-weight: 800; 
+    margin-bottom: 10px; 
+    letter-spacing: -2px; /* Ajuste fino para fontes profissionais */
+}
+.hero p { font-size: clamp(18px, 4vw, 24px); margin-bottom: 30px; font-weight: 400; }
+.hero-link { color: var(--neon-green); text-decoration: none; font-size: 18px; font-weight: 600; cursor: pointer; }
+
+/* 5. VITRINE E CARDS */
+.container { max-width: 1200px; margin: 0 auto; padding: 80px 20px; }
+.vitrine-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+
+.car-card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 30px;
+    border: 1px solid var(--input-border);
+    transition: 0.4s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.car-card:hover { transform: translateY(-10px); border-color: var(--neon-green); }
+.car-card h3 { color: var(--text-primary); margin-bottom: 5px; font-weight: 700; }
+.car-card .price { color: var(--text-secondary); font-weight: 500; }
+
+.btn-reserva {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: var(--neon-green);
+    color: #000;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 12px;
+    border: none;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* 6. FORMULÁRIO */
+.form-section {
+    background: var(--form-bg);
+    padding: 100px 20px;
+    text-align: center;
+    transition: background 0.4s;
+}
+
+.form-section h2 { font-size: 42px; margin-bottom: 40px; color: var(--text-primary); font-weight: 800; letter-spacing: -1.5px; }
+
+.form-section input {
+    background: var(--input-bg);
+    color: var(--text-primary);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid var(--input-border);
+    width: 280px;
+    margin: 10px;
+    font-size: 16px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.btn-submit {
+    background: var(--text-primary);
+    color: var(--bg-color);
+    padding: 15px 40px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.btn-submit:hover { background: var(--neon-green); color: #000; }
+
+/* --- ADIÇÕES PREMIUM --- */
+
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.modal-content {
+    background: var(--card-bg);
+    margin: 5% auto;
+    padding: 40px;
+    border: 1px solid var(--neon-green);
+    width: 90%;
+    max-width: 500px;
+    border-radius: 30px;
+    position: relative;
+    color: var(--text-primary);
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 30px;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.close-modal:hover { color: var(--neon-green); }
+
+@keyframes skeleton-pulse {
+    0% { background-color: rgba(128, 128, 128, 0.1); }
+    50% { background-color: rgba(128, 128, 128, 0.2); }
+    100% { background-color: rgba(128, 128, 128, 0.1); }
+}
+
+.skeleton-card {
+    height: 400px;
+    border-radius: 24px;
+    animation: skeleton-pulse 1.5s infinite ease-in-out;
+}
+
+.navbar {
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+}
+
+.car-card {
+    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+}
+
+.car-card:hover {
+    transform: translateY(-15px) scale(1.02) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25) !important;
+}
+
+.car-card img {
+    transition: transform 0.5s ease;
+}
+
+.car-card:hover img {
+    transform: scale(1.1) rotate(-2deg);
+}
+
+.toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--neon-green);
+    color: #000;
+    padding: 16px 28px;
+    border-radius: 14px;
+    font-weight: 800;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    transform: translateX(150%);
+    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.toast.show {
+    transform: translateX(0);
+}
+
+.feedback-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.feedback-card {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 20px;
+    border-radius: 15px;
+    border-left: 4px solid var(--neon-green);
+    text-align: left;
+}
+
+.depoimento {
+    font-style: italic;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.user-info strong {
+    display: block;
+    color: var(--neon-green);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.user-info span {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.modal-content.feedback-container {
+    max-width: 700px;
+    border-radius: 20px;
+}
+
+.input-premium {
+    width: 100%;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--input-border);
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.input-premium:focus {
+    border-color: var(--neon-green);
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.2);
+}
+
+select.input-premium {
+    cursor: pointer;
+    appearance: none; 
+}
+
+/* --- AJUSTES PARA MOBILE (Telas até 768px) --- */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 15px 20px; /* Reduz o recuo da barra de navegação */
+    }
+
+    .hero h1 {
+        font-size: 50px; /* Fonte menor para não quebrar linha */
+        letter-spacing: -2px;
+        
+        /* Reflexo mais curto para mobile (ajustado de -20px para -10px) */
+        -webkit-box-reflect: below -10px linear-gradient(transparent, rgba(255, 255, 255, 0.15));
+    }
+
+    .hero p {
+        margin-top: 25px; /* Ajusta o espaço após o reflexo */
+        padding: 0 15px;
+        font-size: 18px;
+    }
+
+    .form-section input {
+        width: 100%; /* Inputs ocupam a largura toda no celular */
+        max-width: 320px;
+        margin: 10px 0;
+    }
+
+    .vitrine-grid {
+        grid-template-columns: 1fr; /* Uma coluna só nos cards */
+        gap: 20px;
+    }
+}
+
+/* Ajuste fino para celulares muito pequenos (iPhone SE, etc) */
+@media (max-width: 380px) {
+    .hero h1 {
+        font-size: 40px;
+    }
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoCar | Futurismo e Potência</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#" class="logo-container">
+            <img src="logo.png" alt="Logo"> 
+            <div class="logo-text">Go<span>Car</span></div>
+        </a>
+
+        <ul class="menu">
+            <li><a href="#">Início</a></li>
+            <li><a href="#vitrine">Veículos</a></li>
+            <li><a href="#" id="btn-suporte">Suporte</a></li> <li><a href="#cadastro" class="btn-nav">CADASTRAR</a></li>
+            <li>
+                <button id="theme-toggle" title="Alternar Tema">🌓</button>
+            </li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h1>GoCar.</h1>
+        <p>A nova era da mobilidade chegou.</p>
+        <div style="display: flex; gap: 20px;">
+            <a href="#" id="btn-saiba-mais" class="hero-link">Comentários ></a>
+            <a href="#vitrine" class="hero-link">Ver catálogo ></a>
+        </div>
+    </section>
+
+    <div class="container" id="vitrine">
+        <div id="vitrine-grid" class="vitrine-grid">
+            </div>
+    </div>
+
+    <section id="cadastro" class="form-section">
+        <h2>Seja um dos primeiros.</h2>
+        <div class="form-container">
+            <input type="text" id="nome" placeholder="Nome">
+            <input type="email" id="email" placeholder="E-mail">
+            <input type="password" id="senha" placeholder="Senha">
+            <br><br>
+            <button class="btn-submit" onclick="cadastrar()">CADASTRAR</button>
+            <div id="mensagem"></div>
+        </div>
+    </section>
+
+    <div id="modal-feedback" class="modal">
+        <div class="modal-content feedback-container">
+            <span class="close-modal">&times;</span>
+            <h2 style="color: var(--neon-green); margin-bottom: 5px;">Experiências GoCar</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 30px;">O que nossos membros dizem sobre a jornada.</p>
+            
+            <div class="feedback-grid">
+                <div class="feedback-card">
+                    <p class="depoimento">"O Polo transformou minha viagem de negócios em SP. Potência absurda e entrega impecável."</p>
+                    <div class="user-info">
+                        <strong>Miguel Bertol</strong>
+                        <span>CEO KaisaMain</span>
+                    </div>
+                </div>
+
+                <div class="feedback-card">
+                    <p class="depoimento">"Aluguei o Mobi para o meu casamento. O carro estava impecável e o suporte é de outro nível."</p>
+                    <div class="user-info">
+                        <strong>Matheus Alcantara</strong>
+                        <span>Bombeiro</span>
+                    </div>
+                </div>
+
+                <div class="feedback-card">
+                    <p class="depoimento">"Final de semana na serra com o BYD Dolphin. Conforto inigualável para a Sabrina Carpenter."</p>
+                    <div class="user-info">
+                        <strong>Alessandro Borges</strong>
+                        <span>Investidor</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-suporte" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <span class="close-modal" id="fechar-suporte">&times;</span>
+            <h2 style="color: var(--neon-green); margin-bottom: 5px;">Central de Apoio</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 20px;">Como podemos ajudar você hoje?</p>
+
+            <form id="form-suporte" onsubmit="enviarSuporte(event)">
+                <select id="tipo-contato" class="input-premium" style="width: 100%; margin-bottom: 15px; padding: 12px; border-radius: 10px; background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--input-border);">
+                    <option value="duvida">Dúvida Geral</option>
+                    <option value="reclamacao">Reclamação ou Problema</option>
+                    <option value="avaliacao">Avaliar o Site</option>
+                </select>
+                
+                <textarea id="mensagem-suporte" placeholder="Descreva sua mensagem aqui..." rows="4" style="width: 100%; margin-bottom: 15px; padding: 12px; border-radius: 10px; background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--input-border); resize: none;" required></textarea>
+                
+                <button type="submit" class="btn-reserva" style="width: 100%; border: none; cursor: pointer;">
+                    ENVIAR SOLICITAÇÃO
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="gocar.js"></script>
+</body>
+</html>
