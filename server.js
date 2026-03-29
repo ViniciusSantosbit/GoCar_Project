@@ -5,30 +5,32 @@ const path = require('path');
 const app = express();
 
 app.use(express.json());
-app.use(express.static('public')); 
+app.use(express.static('public'));
 
+// server.js
 const db = mysql.createConnection({
-    host: 'localhost',
+    host: 'hopper.proxy.rlwy.net',
     user: 'root',
-    password: '75231', 
-    database: 'gocar_test'
+    password: 'dIlFtbiCvRvKmmxJTByddUXolBNcragG', 
+    database: 'gocar_test',
+    port: 15625, // <--- VERIFIQUE NO PAINEL DO RAILWAY SE A PORTA É ESSA MESMO
+    connectTimeout: 10000,
+    ssl: { rejectUnauthorized: false } 
 });
 
 db.connect((err) => {
     if (err) {
-        console.error('ERRO AO CONECTAR NO BANCO:', err.message);
+        console.error('❌ ERRO AO CONECTAR:', err.message);
     } else {
-        console.log('Conectado ao banco de dados MySQL!');
+        console.log('✅ Conectado ao MySQL do Railway!');
     }
 });
 
+// Suas rotas (/carros, /cadastro) continuam IGUAIS aqui abaixo...
+
 app.get('/carros', (req, res) => {
     db.query('SELECT * FROM carros', (err, results) => {
-        if (err) {
-            console.error("Erro na consulta /carros:", err);
-            return res.status(500).send(err);
-        }
-        console.log(`Consulta realizada: ${results.length} carros encontrados.`);
+        if (err) return res.status(500).send(err);
         res.json(results);
     });
 });
@@ -41,7 +43,8 @@ app.post('/cadastro', (req, res) => {
     });
 });
 
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
+// IMPORTANTE: O Railway define a porta sozinho
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
